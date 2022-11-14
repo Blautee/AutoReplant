@@ -1,0 +1,11 @@
+name: AutoReplant
+version: 0.0.1
+author: Blautee
+api-version: 1.19.2
+
+main: de.blautee.autoreplant.Main
+description: Automates the Replant Process so you don't have to care about that on your Server!
+commands:
+  autoreplant:
+    description: Toggle the function or reload config with admin permission
+    aliases: arp

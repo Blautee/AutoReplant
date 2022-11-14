@@ -1,0 +1,17 @@
+lang:
+  prefix: "&bAutoPlant &8>> &f"
+  reload_done: "&aReload done!"
+  activated: "&aAutoPlant aktiviert!"
+  deactivated: "&cAutoPlant deaktiviert!"
+  not_ready: "&bDiese Pflanze ist noch nicht soweit..."
+config:
+  user_perm: 'zf.autoreplant.user'
+  admin_perm: 'zf.autoreplant.admin'
+  material_list:
+  - BEETROOTS
+  - CARROTS
+  - POTATOES
+  - WHEAT
+  player_list:
+    2b1db394-43bb-4685-a4c9-8370a81aa159: true
+    34869720-c776-4b18-ad05-e507e45cc3fc: false
