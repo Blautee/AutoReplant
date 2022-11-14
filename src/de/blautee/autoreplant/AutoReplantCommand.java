@@ -14,40 +14,52 @@ public class AutoReplantCommand implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (sender instanceof Player) {
 			Player p = (Player) sender;
+			
+			if (args.length == 0) {
+				if (p.hasPermission(Settings.user_perm)) {
+					// TODO
+					// TOGGLE
+					if (Settings.useAuto.containsKey(p.getUniqueId())) {
+						if (Settings.useAuto.get(p.getUniqueId())) {
+							// DEACT
+							Settings.useAuto.put(p.getUniqueId(), false);
+							Main.getPlugin().getConfig().set("config.player_list." + p.getUniqueId().toString(), false);
+							Main.getPlugin().saveConfig();
+							p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
+									TextComponent.fromLegacyText(Settings.deactivated));
+						} else {
+							// ACT
+							Settings.useAuto.put(p.getUniqueId(), true);
+							Main.getPlugin().getConfig().set("config.player_list." + p.getUniqueId().toString(), true);
+							Main.getPlugin().saveConfig();
+							p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
+									TextComponent.fromLegacyText(Settings.activated));
+						}
+					} else {
+						// ACT
+						Settings.useAuto.put(p.getUniqueId(), true);
+						Main.getPlugin().getConfig().set("config.player_list." + p.getUniqueId().toString(), true);
+						Main.getPlugin().saveConfig();
+						p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
+								TextComponent.fromLegacyText(Settings.activated));
 
-			if (p.hasPermission(Settings.admin_perm)) {
-				if (args.length == 1) {
-					if (args[0].equalsIgnoreCase("reload")) {
+					}
+					return true;
+				}
+			} else if (args.length == 1) {
+				if (args[0].equalsIgnoreCase("reload")) {
+					if (p.hasPermission(Settings.admin_perm)) {
+						Main.getPlugin().reloadConfig();
 						Settings.reloadConfig();
 						Settings.reloadLang();
 						p.sendMessage(Settings.prefix + Settings.reload_done);
+						System.out.println(Settings.matList);
+						System.out.println(Settings.useAuto);
 						return true;
 					}
-					return false;
 				}
-				return false;
 			}
-
-			if (args.length == 0 && p.hasPermission(Settings.user_perm)) {
-				// TODO
-				// TOGGLE
-				if (Settings.useAuto.get(p.getUniqueId())) {
-					//DEACT
-					Settings.useAuto.put(p.getUniqueId(), false);
-					Main.getPlugin().getConfig().set("config.player_list" + p.getUniqueId().toString(), false);
-					Main.getPlugin().saveConfig();
-					p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(Settings.deactivated));
-				} else {
-					//ACT
-					Settings.useAuto.put(p.getUniqueId(), true);
-					Main.getPlugin().getConfig().set("config.player_list" + p.getUniqueId().toString(), true);
-					Main.getPlugin().saveConfig();
-					p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-							TextComponent.fromLegacyText(Settings.activated));
-				}
-				return true;
-			}
-
+			
 			return false;
 
 		} else {

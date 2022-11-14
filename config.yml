@@ -1,15 +1,16 @@
 lang:
   prefix: "&bAutoPlant &8>> &f"
   reload_done: "&aReload done!"
-  activated: "&aAutoPlant aktiviert!"
-  deactivated: "&cAutoPlant deaktiviert!"
-  not_ready: "&bDiese Pflanze ist noch nicht soweit..."
+  activated: "&aAutoPlant activated!"
+  deactivated: "&cAutoPlant deactivated!"
+  not_ready: "&bThis plant is not ready yet..."
 config:
   user_perm: 'zf.autoreplant.user'
   admin_perm: 'zf.autoreplant.admin'
   material_list:
   - BEETROOTS
   - CARROTS
+  - NETHER_WART
   - POTATOES
   - WHEAT
   player_list:

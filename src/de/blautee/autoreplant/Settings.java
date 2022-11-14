@@ -19,7 +19,6 @@ public class Settings {
 
 	public static Map<UUID, Boolean> useAuto;
 	public static List<Material> matList;
-	public static Map<Material, Material> getSeeds;
 
 	public static String prefix;
 
@@ -31,13 +30,6 @@ public class Settings {
 	public static String not_ready;
 
 	public static void reloadConfig() {
-		getSeeds = new HashMap<Material, Material>();
-		getSeeds.put(Material.BEETROOTS, Material.BEETROOT_SEEDS);
-		getSeeds.put(Material.CARROTS, Material.CARROT);
-		getSeeds.put(Material.NETHER_WART, Material.NETHER_WART);
-		getSeeds.put(Material.POTATOES, Material.POTATO);
-		getSeeds.put(Material.WHEAT, Material.WHEAT_SEEDS);
-
 		FileConfiguration cfg = Main.getPlugin().getConfig();
 
 		user_perm = cfg.getString("config.user_perm");
@@ -52,10 +44,11 @@ public class Settings {
 						"Error with Material " + s + " in your config.material_list! " + ex);
 			}
 		}
-
+		
 		useAuto = new HashMap<UUID, Boolean>();
-		for (String s : cfg.getConfigurationSection("config.playerlist").getKeys(false)) {
-			boolean use = cfg.getBoolean("config.playerlist." + s);
+		
+		for (String s : cfg.getConfigurationSection("config.player_list").getKeys(false)) {
+			boolean use = cfg.getBoolean("config.player_list." + s);
 			try {
 				UUID id = UUID.fromString(s);
 				useAuto.put(id, use);

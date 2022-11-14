@@ -1,7 +1,7 @@
 name: AutoReplant
 version: 0.0.1
 author: Blautee
-api-version: 1.19.2
+api-version: 1.19
 
 main: de.blautee.autoreplant.Main
 description: Automates the Replant Process so you don't have to care about that on your Server!
