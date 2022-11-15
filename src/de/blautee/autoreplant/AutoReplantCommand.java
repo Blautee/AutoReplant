@@ -1,14 +1,20 @@
 package de.blautee.autoreplant;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.bukkit.util.StringUtil;
 
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 
-public class AutoReplantCommand implements CommandExecutor {
+public class AutoReplantCommand implements CommandExecutor, TabCompleter {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -17,7 +23,7 @@ public class AutoReplantCommand implements CommandExecutor {
 			
 			if (args.length == 0) {
 				if (p.hasPermission(Settings.user_perm)) {
-					// TODO
+					// TODO Simplify
 					// TOGGLE
 					if (Settings.useAuto.containsKey(p.getUniqueId())) {
 						if (Settings.useAuto.get(p.getUniqueId())) {
@@ -53,9 +59,22 @@ public class AutoReplantCommand implements CommandExecutor {
 						Settings.reloadConfig();
 						Settings.reloadLang();
 						p.sendMessage(Settings.prefix + Settings.reload_done);
-						System.out.println(Settings.matList);
-						System.out.println(Settings.useAuto);
 						return true;
+					}
+				} else if (args[0].equalsIgnoreCase("toggleworld")) {
+					if (p.hasPermission(Settings.admin_perm)) {
+						String worldName = p.getWorld().getName();
+						
+						if (Settings.worldBlacklist.contains(worldName)) {
+							Settings.worldBlacklist.remove(worldName);
+							p.sendMessage(Settings.prefix + Settings.world_removed_from_blacklist);
+						} else {
+							Settings.worldBlacklist.add(worldName);
+							p.sendMessage(Settings.prefix + Settings.world_added_to_blacklist);
+						}
+						
+						Main.getPlugin().getConfig().set("config.world_blacklist", Settings.worldBlacklist);
+						Main.getPlugin().saveConfig();
 					}
 				}
 			}
@@ -65,6 +84,25 @@ public class AutoReplantCommand implements CommandExecutor {
 		} else {
 			sender.sendMessage(Settings.prefix + "This only works as a Player!");
 			return false;
+		}
+	}
+	
+	@Override
+	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
+		if (sender.hasPermission(Settings.admin_perm)) {
+			List<String> completions = new ArrayList<String>();
+			List<String> commands = new ArrayList<String>();
+			
+			if (args.length == 1) {
+				commands.add("toggleworld");
+				commands.add("reload");
+			}
+			
+			StringUtil.copyPartialMatches(args[0], commands, completions);
+			Collections.sort(completions);
+			return completions;
+		} else {
+			return null;
 		}
 	}
 }
