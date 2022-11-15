@@ -5,7 +5,7 @@ Let your users be lazy and treat yourself with always cultivated farms. Now not 
 
 Individually toggle the plugin for yourself with the "**/autoreplant**" or short "**/arp**" command. This needs the user-permission!
 
-While sneaking, any configuration will be ignored and the crop can be harvested as known in vanilla minecraft.
+While sneaking, any configuration will be ignored and the crop can be harvested as known in vanilla Minecraft.
 
 ## Customizable!
 Change the output phrases in the config.yml or adjust the permissions to your liking!
