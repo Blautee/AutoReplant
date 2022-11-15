@@ -4,6 +4,8 @@ lang:
   activated: "&aAutoPlant activated!"
   deactivated: "&cAutoPlant deactivated!"
   not_ready: "&bThis plant is not ready yet..."
+  world_added_to_blacklist: "Auto-Replant toggled &coff &fin this World!"
+  world_removed_from_blacklist: "Auto-Replant toggled &aon &fin this World!"
 config:
   user_perm: 'zf.autoreplant.user'
   admin_perm: 'zf.autoreplant.admin'
@@ -13,6 +15,8 @@ config:
   - NETHER_WART
   - POTATOES
   - WHEAT
+  world_blacklist:
+  - ExampleWorld
   player_list:
     2b1db394-43bb-4685-a4c9-8370a81aa159: true
     34869720-c776-4b18-ad05-e507e45cc3fc: false

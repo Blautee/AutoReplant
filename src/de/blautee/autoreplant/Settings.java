@@ -19,6 +19,8 @@ public class Settings {
 
 	public static Map<UUID, Boolean> useAuto;
 	public static List<Material> matList;
+	
+	public static List<String> worldBlacklist;
 
 	public static String prefix;
 
@@ -28,6 +30,9 @@ public class Settings {
 	public static String deactivated;
 
 	public static String not_ready;
+	
+	public static String world_added_to_blacklist;
+	public static String world_removed_from_blacklist;
 
 	public static void reloadConfig() {
 		FileConfiguration cfg = Main.getPlugin().getConfig();
@@ -38,11 +43,16 @@ public class Settings {
 		matList = new ArrayList<Material>();
 		for (String s : cfg.getStringList("config.material_list")) {
 			try {
-				matList.add(Material.valueOf(s));
+				matList.add(Material.valueOf(s.toUpperCase()));
 			} catch (Exception ex) {
 				Bukkit.getLogger().log(Level.WARNING,
 						"Error with Material " + s + " in your config.material_list! " + ex);
 			}
+		}
+		
+		worldBlacklist = cfg.getStringList("config.world_blacklist");
+		if (worldBlacklist == null) {
+			worldBlacklist = new ArrayList<String>();
 		}
 		
 		useAuto = new HashMap<UUID, Boolean>();
@@ -64,6 +74,8 @@ public class Settings {
 		activated = colorMe("lang.activated");
 		deactivated = colorMe("lang.deactivated");
 		not_ready = colorMe("lang.not_ready");
+		world_added_to_blacklist = colorMe("lang.world_added_to_blacklist");
+		world_removed_from_blacklist = colorMe("lang.world_removed_from_blacklist");
 	}
 
 	public static String colorMe(String s) {

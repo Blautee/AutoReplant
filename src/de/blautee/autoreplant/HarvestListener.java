@@ -16,6 +16,9 @@ public class HarvestListener implements Listener {
 
 	@EventHandler
 	public void onHarvest(BlockBreakEvent e) {
+		if (Settings.worldBlacklist.contains(e.getPlayer().getWorld().getName())) {
+			return;
+		}
 		if (Settings.useAuto.get(e.getPlayer().getUniqueId()) != null) {
 			if (Settings.useAuto.get(e.getPlayer().getUniqueId())) {
 				if ((!e.getPlayer().isSneaking())) {
