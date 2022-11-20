@@ -10,7 +10,10 @@ While sneaking, any configuration will be ignored and the crop can be harvested 
 ## Customizable!
 Change the output phrases in the config.yml or adjust the permissions to your liking!
 
+Option to auto-toggle AutoReplant on for new Users on their first join:
+`autoactivate: true`
 
+Edit the Permissions in this section:
 ```
 default perms:
   user_perm: 'zf.autoreplant.user'
