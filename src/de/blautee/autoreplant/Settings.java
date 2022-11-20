@@ -13,6 +13,8 @@ import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public class Settings {
+	
+	public static boolean autoactivate;
 
 	public static String user_perm;
 	public static String admin_perm;
@@ -36,6 +38,8 @@ public class Settings {
 
 	public static void reloadConfig() {
 		FileConfiguration cfg = Main.getPlugin().getConfig();
+		
+		autoactivate = cfg.getBoolean("autoactivate");
 
 		user_perm = cfg.getString("config.user_perm");
 		admin_perm = cfg.getString("config.admin_perm");

@@ -7,12 +7,24 @@ import org.bukkit.block.data.Ageable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 
 public class HarvestListener implements Listener {
+	
+	@EventHandler
+	public void onJoinActivation(PlayerJoinEvent e) {
+		if (Settings.autoactivate) {
+			if (!Settings.useAuto.keySet().contains(e.getPlayer().getUniqueId())) {
+				Settings.useAuto.put(e.getPlayer().getUniqueId(), true);
+				Main.getPlugin().getConfig().set("config.player_list." + e.getPlayer().getUniqueId().toString(), true);
+				Main.getPlugin().saveConfig();
+			}
+		}
+	}
 
 	@EventHandler
 	public void onHarvest(BlockBreakEvent e) {

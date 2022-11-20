@@ -1,3 +1,4 @@
+autoactivate: true
 lang:
   prefix: "&bAutoPlant &8>> &f"
   reload_done: "&aReload done!"
