@@ -10,6 +10,14 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldedit.util.Location;
+import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.protection.ApplicableRegionSet;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import com.sk89q.worldguard.protection.regions.RegionContainer;
+import com.sk89q.worldguard.protection.regions.RegionQuery;
+
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 
@@ -28,6 +36,40 @@ public class HarvestListener implements Listener {
 
 	@EventHandler
 	public void onHarvest(BlockBreakEvent e) {
+		if (Main.useWorldGuard) {
+			Location loc = BukkitAdapter.adapt(e.getBlock().getLocation());
+			RegionContainer c = WorldGuard.getInstance().getPlatform().getRegionContainer();
+			RegionQuery q = c.createQuery();
+			ApplicableRegionSet set = q.getApplicableRegions(loc);
+			ProtectedRegion region = null;
+			
+			if (set.getRegions().size() == 1) {
+				region = (ProtectedRegion) set.getRegions().toArray()[0];
+			} else if (set.getRegions().size() > 1) {
+				for (ProtectedRegion rg : set.getRegions()) {
+					if (region == null) {
+						region = rg;
+					}
+					
+					if (rg.getPriority() > region.getPriority()) {
+						region = rg;
+					}
+				}
+			}
+			
+			if (region != null) {
+				if (region.getOwners().contains(e.getPlayer().getUniqueId())) {
+					// User has Owner rights, continue
+				} else if (region.getMembers().contains(e.getPlayer().getUniqueId())) {
+					// User has Member rights, continue
+				} else {
+					// User is not allowed to harvest here!
+					// Return and let WorldGuard do its thing!
+					return;
+				}
+			}
+		}		
+		
 		if (Settings.worldBlacklist.contains(e.getPlayer().getWorld().getName())) {
 			return;
 		}

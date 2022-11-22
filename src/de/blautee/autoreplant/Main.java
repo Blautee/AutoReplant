@@ -8,12 +8,16 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Main extends JavaPlugin {
 
 	public static Main plugin;
+	
+	public boolean WG = false;
+	public boolean WE = false;
+	public static boolean useWorldGuard = false;
 
 	public void onEnable() {
 		plugin = this;
-		
+
 		saveDefaultConfig();
-		
+
 		checkLangUpdate();
 
 		Settings.reloadConfig();
@@ -23,6 +27,19 @@ public class Main extends JavaPlugin {
 		pm.registerEvents(new HarvestListener(), plugin);
 
 		getCommand("autoreplant").setExecutor(new AutoReplantCommand());
+
+		
+		if (pm.getPlugin("WorldGuard") != null) {
+			WG = true;
+		}
+
+		if (pm.getPlugin("WorldEdit") != null) {
+			WE = true;
+		}
+		
+		if (WG && WE) {
+			useWorldGuard = true;
+		}
 
 	}
 
