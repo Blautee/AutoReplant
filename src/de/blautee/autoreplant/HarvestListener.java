@@ -94,7 +94,11 @@ public class HarvestListener implements Listener {
 									if (dropCount == 2) {
 										dropAmount = itemStack.getAmount() - 1;
 									}
-									ItemStack drop = new ItemStack(itemStack.getType(), dropAmount);
+
+									if (dropAmount != 0) {
+										ItemStack drop = new ItemStack(itemStack.getType(), dropAmount);
+									}
+									
 									harvest.getWorld().dropItemNaturally(harvest.getLocation(), drop);
 									dropCount++;
 								}
